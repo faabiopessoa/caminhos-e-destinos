@@ -2,6 +2,7 @@ import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { Navbar } from "@/widgets/layout";
 import routes from "@/routes";
 import TourDetails from "./pages/tour-details";
+import Checkout from "./pages/checkout";
 
 
 function App() {
@@ -9,7 +10,7 @@ function App() {
 
   return (
     <>
-      {!(pathname == '/sign-in' || pathname == '/sign-up') && (
+      {!(pathname == '/sign-in' || pathname == '/sign-up' || pathname == '/checkout') && (
         <div className="container absolute left-2/4 z-10 mx-auto -translate-x-2/4 p-4">
           <Navbar routes={routes} />
         </div>
@@ -20,6 +21,7 @@ function App() {
           ({ path, element }, key) =>
             element && <Route key={key} exact path={path} element={element} />
         )}
+        <Route path="/checkout" element={<Checkout />}/>
         <Route path="/details" element={<TourDetails />} />
         <Route path="*" element={<Navigate to="/home" replace />} />
       </Routes>
