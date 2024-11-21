@@ -4,28 +4,29 @@ import { Typography, Input, Button } from '@material-tailwind/react';
 import React, { useEffect, useState } from 'react';
 import { Footer } from '@/widgets/layout';
 import { useNavigate } from 'react-router-dom';
+import { createAssessment } from '@/services/apiService';
+import { getAllAssessments } from '@/services/apiService';
 
 function TourDetails() {
-  const [reviews, setReviews] = useState([
-    {
-      name: "João Silva",
-      message: "Experiência incrível! As praias são maravilhosas e o guia foi muito atencioso.",
-      stars: 4,
-    },
-    {
-      name: "Maria Oliveira",
-      message: "Lugar espetacular, com muitas belezas naturais. Recomendo a todos!",
-      stars: 5,
-    },
-    {
-      name: "Carlos Mendes",
-      message: "Foi uma viagem memorável, a organização estava excelente.",
-      stars: 4,
-    },
-  ]);
-
+  const [reviews, setReviews] = useState([]);
   const [newReview, setNewReview] = useState({ name: "", message: "", stars: 0 });
   const [showNotification, setShowNotification] = useState(false);
+
+  // Função para buscar avaliações do backend
+  const fetchReviews = async () => {
+    try {
+      const fetchedReviews = await getAllAssessments();
+      setReviews(fetchedReviews);
+    } catch (error) {
+      console.error("Erro ao buscar avaliações:", error);
+    }
+  };
+
+  // Chama fetchReviews quando o componente é montado
+  useEffect(() => {
+    fetchReviews();
+    window.scrollTo(0, 0);
+  }, []);
 
   // Calcula a média de estrelas
   const calculateAverageStars = () => {
@@ -45,29 +46,29 @@ function TourDetails() {
     setNewReview({ ...newReview, stars });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (newReview.name && newReview.message && newReview.stars) {
-      setReviews([...reviews, newReview]);
-      setNewReview({ name: "", message: "", stars: 0 });
+      try {
+        await createAssessment(newReview);
+        setReviews([...reviews, newReview]);
+        setNewReview({ name: "", message: "", stars: 0 });
+      } catch (error) {
+        console.error("Erro ao criar avaliação:", error);
+      }
     } else {
       setShowNotification(true);
       setTimeout(() => {
         setShowNotification(false);
-      }, 3000); // Notificação desaparece após 3 segundos
+      }, 3000);
     }
   };
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
 
   const navigate = useNavigate();
   const handleReserveClick = () => {
     navigate('/checkout');
   };
 
-  // Função para renderizar estrelas, incluindo uma estrela parcial se necessário
   const renderStars = (average) => {
     const fullStars = Math.floor(average);
     const partialStarPercentage = (average - fullStars) * 100;
@@ -79,10 +80,7 @@ function TourDetails() {
 
     if (partialStarPercentage > 0) {
       stars.push(
-        <div
-          key="partial"
-          className="w-5 h-5 relative"
-        >
+        <div key="partial" className="w-5 h-5 relative">
           <FullStarIcon
             className="absolute text-orange-400"
             style={{ clipPath: `inset(0 ${100 - partialStarPercentage}% 0 0)` }}

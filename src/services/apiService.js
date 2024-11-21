@@ -84,3 +84,36 @@ export const deleteUser = async (userId) => {
 
   return await response.json();
 };
+
+
+//ASSESSMENT
+export const createAssessment = async (assessmentData) => {
+  const response = await fetch(`${backendUrl}/assessments`, {
+      method: "POST",
+      headers: {
+          "Content-Type": "application/json",
+      },
+      body: JSON.stringify(assessmentData),
+  });
+
+  if (!response.ok) {
+      throw new Error("Erro ao enviar avaliação");
+  }
+
+  return await response.json();
+};
+
+export const getAllAssessments = async () => {
+  const response = await fetch(`${backendUrl}/assessments`, {
+      method: "GET",  
+      headers: {
+          "Content-Type": "application/json",
+      },
+  });
+
+  if (!response.ok) {
+      throw new Error("Erro ao carregar avaliações");
+  }
+
+  return await response.json();
+};

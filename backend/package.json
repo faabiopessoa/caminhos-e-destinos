@@ -3,9 +3,10 @@
     "version": "1.0.0",
     "type": "module",
     "dependencies": {
-      "bcrypt": "^5.0.1",
-      "caminhos-e-destinos": "file:",
-      "express": "^4.17.1",
-      "sequelize": "^6.6.5"
+        "bcrypt": "^5.0.1",
+        "caminhos-e-destinos": "file:",
+        "express": "^4.17.1",
+        "mysql2": "^3.11.4",
+        "sequelize": "^6.6.5"
     }
-  }
+}
