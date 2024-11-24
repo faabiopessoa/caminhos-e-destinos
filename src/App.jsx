@@ -1,8 +1,15 @@
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { Navbar } from "@/widgets/layout";
 import routes from "@/routes";
-import TourDetails from "./pages/tour-details";
 import Checkout from "./pages/checkout";
+import Jericoacoara from "./pages/Jericoacoara";
+import Lagoinha from "./pages/Lagoinha";
+import Canoa from "./pages/Canoa";
+import Cumbuco from "./pages/Cumbuco";
+import Flecheiras from "./pages/Flecheiras";
+import MorroBranco from "./pages/MorroBranco";
+import Mundau from "./pages/Mundau";
+import Paracuru from "./pages/Paracuru";
 
 
 function App() {
@@ -22,7 +29,14 @@ function App() {
             element && <Route key={key} exact path={path} element={element} />
         )}
         <Route path="/checkout" element={<Checkout />}/>
-        <Route path="/details" element={<TourDetails />} />
+        <Route path="/jericoacoara" element={<Jericoacoara />} />
+        <Route path="/lagoinha" element={<Lagoinha />} />
+        <Route path="/canoaquebrada" element={<Canoa />} />
+        <Route path="/cumbuco" element={<Cumbuco />} />
+        <Route path="/flecheiras" element={<Flecheiras />} />
+        <Route path="/morrobranco" element={<MorroBranco />} />
+        <Route path="/mundau" element={<Mundau />} />
+        <Route path="/paracuru" element={<Paracuru />} />
         <Route path="*" element={<Navigate to="/home" replace />} />
       </Routes>
     </>

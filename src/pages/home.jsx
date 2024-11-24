@@ -5,15 +5,14 @@ import {
   CardHeader,
   Typography,
   Button,
-  IconButton,
   Input,
   Textarea,
   Checkbox,
 } from "@material-tailwind/react";
-import { FingerPrintIcon, SunIcon, UsersIcon } from "@heroicons/react/24/solid";
+import { SunIcon } from "@heroicons/react/24/solid";
 import { PageTitle, Footer } from "@/widgets/layout";
 import { FeatureCard, TeamCard } from "@/widgets/cards";
-import { featuresData, teamData, contactData } from "@/data";
+import { featuresData, teamData } from "@/data";
 import { Link } from "react-router-dom";
 
 export function Home() {
@@ -106,7 +105,7 @@ export function Home() {
             Explore as melhores opções de passeios que preparamos para você! Cada destino foi cuidadosamente escolhido para oferecer experiências únicas, seja para relaxar, se aventurar ou descobrir novas paisagens. Prepare-se para vivenciar momentos inesquecíveis em lugares incríveis!
           </PageTitle>
           <div className="mt-24 grid grid-cols-1 gap-12 gap-x-24 md:grid-cols-2 xl:grid-cols-4">
-            {teamData.map(({ img, name, position, socials }) => (
+            {teamData.map(({ img, name, position, route }) => (
               <TeamCard
                 key={name}
                 img={img}
@@ -114,7 +113,7 @@ export function Home() {
                 position={position}
                 socials={
                   <div className="flex items-center gap-2">
-                    <Link to="/details">
+                    <Link to={route}>
                       <Button variant="filled">ler mais</Button>
                     </Link>
                   </div>
