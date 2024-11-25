@@ -8,6 +8,7 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react"; 
 import { createUser } from '../services/apiService'; 
+import { ArrowLeftIcon } from "@heroicons/react/24/solid";
 
 
 export function SignUp() {
@@ -43,6 +44,9 @@ export function SignUp() {
 
   return (
     <section className="m-8 flex">
+      <div className="absolute top-4 left-4 cursor-pointer" onClick={() => navigate("/home")}>
+        <ArrowLeftIcon className="h-8 w-8 text-gray-700 hover:text-black"/>
+      </div>
       <div className="w-2/5 h-full hidden lg:block">
         <img
           src="/img/favicon.png"

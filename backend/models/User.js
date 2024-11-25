@@ -17,12 +17,7 @@ const User = sequelize.define('User', {
         validate: {
             len: [8, 100], 
         },
-    },
-    /*googleId: {
-        type: DataTypes.STRING,
-        allowNull: true,
-        unique: true, // Garante que o googleId seja único, se usado
-    },*/
+    }
 });
 
 User .beforeCreate(async (user) => {

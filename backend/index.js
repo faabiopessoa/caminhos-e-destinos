@@ -29,7 +29,7 @@ app.use(session({
 //OAUTH 2
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(authRoutes); // Adiciona as rotas de autenticação
+app.use(authRoutes); 
 
 
 //USERS

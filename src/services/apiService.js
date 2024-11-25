@@ -118,6 +118,7 @@ export const getAllAssessments = async () => {
   return await response.json();
 };
 
+//OAUTH 2
 export const loginWithGoogle = () => {
   window.location.href = `${backendUrl}/auth/google`;
 };
