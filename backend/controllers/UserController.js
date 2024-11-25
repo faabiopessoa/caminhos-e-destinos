@@ -10,12 +10,17 @@ const userController = {
     login: async (req, res) => {
         const { email, password } = req.body;
         try {
-            const user = await userService.authenticate(email, password);
-            res.json({ message: 'Login bem-sucedido', user }); 
+            const { user, token } = await userService.authenticate(email, password);
+            res.json({ 
+                message: 'Login bem-sucedido', 
+                user: { id: user.id, email: user.email }, 
+                token 
+            });
         } catch (error) {
             res.status(401).json({ message: error.message });
         }
     },
+    
 
     findAll: async (req, res) => {
         const users = await userService.findAll();

@@ -117,3 +117,86 @@ export const getAllAssessments = async () => {
 
   return await response.json();
 };
+
+export const loginWithGoogle = () => {
+  window.location.href = `${backendUrl}/auth/google`;
+};
+
+
+// TOURISTSPOT
+export const createTouristSpot = async (touristSpotData) => {
+    const response = await fetch(`${backendUrl}/tourist-spots`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(touristSpotData),
+    });
+
+    if (!response.ok) {
+        throw new Error("Erro ao cadastrar ponto turístico");
+    }
+
+    return await response.json();
+};
+
+export const getAllTouristSpots = async () => {
+    const response = await fetch(`${backendUrl}/tourist-spots`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+
+    if (!response.ok) {
+        throw new Error("Erro ao buscar pontos turísticos");
+    }
+
+    return await response.json();
+};
+
+export const getTouristSpotById = async (touristSpotId) => {
+    const response = await fetch(`${backendUrl}/tourist-spots/${touristSpotId}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+
+    if (!response.ok) {
+        throw new Error("Erro ao buscar ponto turístico");
+    }
+
+    return await response.json();
+};
+
+export const updateTouristSpot = async (touristSpotId, touristSpotData) => {
+    const response = await fetch(`${backendUrl}/tourist-spots/${touristSpotId}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(touristSpotData),
+    });
+
+    if (!response.ok) {
+        throw new Error("Erro ao atualizar ponto turístico");
+    }
+
+    return await response.json();
+};
+
+export const deleteTouristSpot = async (touristSpotId) => {
+    const response = await fetch(`${backendUrl}/tourist-spots/${touristSpotId}`, {
+        method: "DELETE",
+    });
+
+    if (!response.ok) {
+        throw new Error("Erro ao deletar ponto turístico");
+    }
+
+    return await response.json();
+};
+
+
+

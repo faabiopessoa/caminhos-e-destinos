@@ -6,25 +6,24 @@ const Assessment = sequelize.define('Assessment', {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-            len: [3, 50], 
+            len: [3, 50],
         },
     },
     message: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-            len: [8, 500], 
+            len: [8, 500],
         },
     },
     stars: {
-        type: DataTypes.INTEGER, 
+        type: DataTypes.INTEGER,
         allowNull: false,
         validate: {
-            min: 1, // Mínimo 1 
-            max: 5, // Máximo 5 
+            min: 1,
+            max: 5,
         },
     },
 });
-
 
 export default Assessment;

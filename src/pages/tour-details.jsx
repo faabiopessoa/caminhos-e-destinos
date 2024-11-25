@@ -11,22 +11,45 @@ function TourDetails() {
   const [reviews, setReviews] = useState([]);
   const [newReview, setNewReview] = useState({ name: "", message: "", stars: 0 });
   const [showNotification, setShowNotification] = useState(false);
+  const navigate = useNavigate();
 
-  // Função para buscar avaliações do backend
-  const fetchReviews = async () => {
+  console.log(localStorage.getItem('token'));
+
+  useEffect(() => {
+    const token = localStorage.getItem('token'); // Verifica se o token está no localStorage
+    if (!token) {
+      navigate('/login'); // Redireciona para o login se o token não existir
+    } else {
+      fetchReviews(token); // Passa o token para a função de busca
+    }
+    window.scrollTo(0, 0);
+  }, [navigate]); // Adiciona navigate como dependência
+
+  const fetchReviews = async (token) => {
     try {
-      const fetchedReviews = await getAllAssessments();
-      setReviews(fetchedReviews);
+      const response = await fetch('http://localhost:3000/assessments', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` // Inclui o token no cabeçalho
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Erro ao buscar avaliações');
+      }
+
+      const data = await response.json();
+      setReviews(data); // Atualiza o estado com as avaliações recebidas
     } catch (error) {
-      console.error("Erro ao buscar avaliações:", error);
+      console.error(error);
+      // Aqui você pode adicionar lógica para lidar com erros, como redirecionar para o login se o token for inválido
+      if (error.message === 'Token inválido') {
+        localStorage.removeItem('token'); // Remove o token inválido
+        navigate('/login'); // Redireciona para o login
+      }
     }
   };
-
-  // Chama fetchReviews quando o componente é montado
-  useEffect(() => {
-    fetchReviews();
-    window.scrollTo(0, 0);
-  }, []);
 
   // Calcula a média de estrelas
   const calculateAverageStars = () => {
@@ -64,7 +87,6 @@ function TourDetails() {
     }
   };
 
-  const navigate = useNavigate();
   const handleReserveClick = () => {
     navigate('/checkout');
   };
