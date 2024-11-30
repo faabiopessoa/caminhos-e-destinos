@@ -2,7 +2,6 @@ import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { Navbar } from "@/widgets/layout";
 import routes from "@/routes";
 import Checkout from "./pages/checkout";
-import Jericoacoara from "./pages/Jericoacoara";
 import Admin from "./pages/Admin";
 import AttractionDetails from "./pages/AttractionDetails";
 
@@ -23,7 +22,6 @@ function App() {
             element && <Route key={key} exact path={path} element={element} />
         )}
         <Route path="/checkout" element={<Checkout />}/>
-        <Route path="/jericoacoara" element={<Jericoacoara />} />
         <Route path="/admin" element={<Admin/>} />
         <Route path="*" element={<Navigate to="/home" replace />} />
         <Route path="/attraction/:id" element={<AttractionDetails />} />

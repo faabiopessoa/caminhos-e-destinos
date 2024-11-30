@@ -6,8 +6,10 @@ import { StarIcon as StarOutlineIcon } from '@heroicons/react/24/outline';
 import { Typography } from '@material-tailwind/react';
 import { Footer } from '@/widgets/layout';
 import { createAssessment } from '@/services/apiService';
+import { useNavigate } from 'react-router-dom';
 
 const TourDetails = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const [attraction, setAttraction] = useState({
     nome: '',
@@ -29,19 +31,30 @@ const TourDetails = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchAttractionDetails = async () => {
-      try {
-        const response = await axios.get(`http://localhost:3000/tourist-spots/${id}`);
-        setAttraction(response.data);
-      } catch (err) {
-        setError("Erro ao carregar os detalhes.");
-      } finally {
-        setLoading(false);
-      }
-    };
+    const token = localStorage.getItem('token'); 
+    if (!token) {
+      navigate('/home'); 
+    } else {
+      fetchAttractionDetails(token); 
+    }
+    window.scrollTo(0, 0); 
 
-    fetchAttractionDetails();
-  }, [id]);
+  }, [navigate]);
+
+  const fetchAttractionDetails = async (token) => {
+    try {
+      const response = await axios.get(`http://localhost:3000/tourist-spots/${id}`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      setAttraction(response.data); 
+    } catch (err) {
+      setError("Erro ao carregar os detalhes.");
+      localStorage.removeItem('token'); 
+      navigate('/login'); 
+    } finally {
+      setLoading(false);
+    }
+  };
 
   if (loading) {
     return <div>Carregando...</div>;
