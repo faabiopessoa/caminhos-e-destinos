@@ -15,7 +15,7 @@ export const teamData = [
     img: "/img/canoa.jpg",
     name: "Canoa Quebrada",
     position: "Aracati-CE",
-    route: "/canoaquebrada",
+    route: "/passeio?id_passeio=10",
   },
   {
     img: "/img/morro.jpg",

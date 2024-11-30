@@ -13,10 +13,37 @@ import './configs/auth.js';
 import authRoutes from './configs/auth.js'
 
 
+import multer from 'multer';
+import path from 'path';
+
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads'); // Diretório onde as imagens serão salvas
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + path.extname(file.originalname)); 
+    }
+});
+
+const upload = multer({ storage });
+
+
+
 const app = express();
 const port = 3000;
 
 app.use(cors());
+
+app.use(cors({
+    origin: 'http://localhost:5173', 
+    credentials: true 
+}));
+
+app.use('/uploads', express.static('uploads'));
+
+
+
 app.use(express.json());
 
 // JWT
@@ -48,10 +75,10 @@ app.put('/assessments/:id', AssessmentController.update);
 app.delete('/assessments/:id', AssessmentController.delete);
 
 // TOURIST SPOTS
-app.post('/tourist-spots', touristSpotController.create);
+app.post('/tourist-spots', upload.single('foto'), touristSpotController.create);
 app.get('/tourist-spots', touristSpotController.findAll);
 app.get('/tourist-spots/:id', touristSpotController.findById);
-app.put('/tourist-spots/:id', touristSpotController.update);
+//app.put('/tourist-spots/:id', touristSpotController.update);
 app.delete('/tourist-spots/:id', touristSpotController.delete);
 
 

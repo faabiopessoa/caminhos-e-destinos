@@ -17,7 +17,7 @@ describe('User Model Test', () => {
 
   test('Criando um usuário no banco de dados', async () => {
     const userData = {
-      email: 'testuser@example.com',
+      email: 'testando@example.com',
       password: '123456789',
     };
 
@@ -27,4 +27,14 @@ describe('User Model Test', () => {
     expect(user.email).toBe(userData.email);
     expect(user.password).not.toBe(userData.password);
   });
+
+  /*test('Erro ao criar um usuário com email inválido', async () => {
+    const response = await request(app)
+      .post('/users')
+      .send({ email: 'invalid-email', password: '12345678' });
+
+    expect(response.status).toBe(400);
+    expect(response.body.error).toMatch(/Validation/);
+  });*/
+
 });

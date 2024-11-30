@@ -1,21 +1,46 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import {
   Card,
   CardBody,
   CardHeader,
   Typography,
   Button,
+  IconButton,
   Input,
   Textarea,
   Checkbox,
 } from "@material-tailwind/react";
-import { SunIcon } from "@heroicons/react/24/solid";
+import { FingerPrintIcon, SunIcon, UsersIcon } from "@heroicons/react/24/solid";
 import { PageTitle, Footer } from "@/widgets/layout";
 import { FeatureCard, TeamCard } from "@/widgets/cards";
-import { featuresData, teamData } from "@/data";
+import { featuresData, teamData, contactData } from "@/data";
 import { Link } from "react-router-dom";
 
 export function Home() {
+  const [touristSpots, setTouristSpots] = useState([]); 
+  const [loading, setLoading] = useState(true); 
+  const [error, setError] = useState(null); 
+
+  useEffect(() => {
+    const fetchTouristSpots = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/tourist-spots"); 
+        setTouristSpots(response.data); 
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false); 
+      }
+    };
+
+    fetchTouristSpots();
+  }, []);
+
+  const handleDetailsClick = (attractionId) => {
+    navigate(`/attraction/${attractionId}`);
+  };
+
   return (
     <>
       <div className="relative flex h-screen content-center items-center justify-center pt-16 pb-32">
@@ -38,6 +63,7 @@ export function Home() {
           </div>
         </div>
       </div>
+
       <section className="-mt-32 bg-white px-4 pb-20 pt-4">
         <div className="container mx-auto">
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -99,30 +125,66 @@ export function Home() {
           </div>
         </div>
       </section>
-      <section className="px-4 pt-20 pb-48">
-        <div className="container mx-auto">
-          <PageTitle section="" heading="Seu destino, nosso caminho!">
+
+
+
+      <section className="-mt-32 bg-white px-4 pb-20 pt-4 mt-5">
+          <PageTitle PageTitle section="" heading="Seu destino, nosso caminho!">
             Explore as melhores opções de passeios que preparamos para você! Cada destino foi cuidadosamente escolhido para oferecer experiências únicas, seja para relaxar, se aventurar ou descobrir novas paisagens. Prepare-se para vivenciar momentos inesquecíveis em lugares incríveis!
           </PageTitle>
-          <div className="mt-24 grid grid-cols-1 gap-12 gap-x-24 md:grid-cols-2 xl:grid-cols-4">
-            {teamData.map(({ img, name, position, route }) => (
-              <TeamCard
-                key={name}
-                img={img}
-                name={name}
-                position={position}
-                socials={
-                  <div className="flex items-center gap-2">
-                    <Link to={route}>
-                      <Button variant="filled">ler mais</Button>
-                    </Link>
-                  </div>
-                }
-              />
-            ))}
-          </div>
+        <div className="container mx-auto">
+          <Typography variant="h3" color="blue-gray" className="mb-8 text-center font-bold mt-24">
+            Atrações Turísticas
+          </Typography>
+
+          {loading && (
+            <div className="text-center text-blue-gray-500">
+              Carregando atrações turísticas...
+            </div>
+          )}
+
+          {error && (
+            <div className="text-center text-red-500">
+              Ocorreu um erro: {error}
+            </div>
+          )}
+
+          {!loading && !error && (
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {touristSpots.map((spot) => (
+                <Card key={spot.id} className="shadow-lg border shadow-gray-500/10 rounded-lg">
+                  <CardHeader floated={false} className="relative h-56">
+                    <img
+                      alt={spot.nome}
+                      src={spot.foto} // URL da imagem do backend
+                      className="h-full w-full object-cover"
+                    />
+                  </CardHeader>
+                  <CardBody>
+                    <Typography variant="h5" color="blue-gray" className="mb-3 font-bold">
+                      {spot.nome}
+                    </Typography>
+                    {/*<Typography className="font-normal text-blue-gray-500">
+                      {spot.descricao}
+                    </Typography>*/}
+                    {/*<Typography className="mt-4 font-bold text-blue-gray-900">
+                      Preço: R$ {spot.preco.toFixed(2)}
+                    </Typography>*/}
+                    <Link to={`/attraction/${spot.id}`}>
+                  <Button
+                    className="w-full bg-gray-900 hover:bg-gray-700 text-white font-semibold py-3 rounded-lg text-center mt-4"
+                  >
+                    Ver mais detalhes
+                  </Button>
+                </Link>
+                  </CardBody>
+                </Card>
+              ))}
+            </div>
+          )}
         </div>
       </section>
+
       <section className="relative bg-white py-24 px-4">
         <div className="container mx-auto">
           <PageTitle section="Contate-nos" heading="Quer um passeio personalizado?">
@@ -158,6 +220,7 @@ export function Home() {
           </form>
         </div>
       </section>
+
       <div className="bg-white">
         <Footer />
       </div>

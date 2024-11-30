@@ -1,7 +1,13 @@
-import { DataTypes } from 'sequelize';
+import { DataTypes, Sequelize } from 'sequelize';
 import sequelize from '../configs/db.js';
 
 const Assessment = sequelize.define('Assessment', {
+    id: {
+        type: Sequelize.INTEGER,
+        autoIncrement: true,
+        allowNull: false,
+        primaryKey: true
+    },
     name: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -23,6 +29,14 @@ const Assessment = sequelize.define('Assessment', {
             min: 1,
             max: 5,
         },
+    },
+    touristSpotId: { 
+        type: DataTypes.INTEGER,
+        references: {
+            model: 'TouristSpots',
+            key: 'id', 
+        },
+        allowNull: false,
     },
 });
 

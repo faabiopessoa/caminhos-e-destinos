@@ -2,14 +2,20 @@ import AssessmentService from '../services/AssessmentService.js';
 
 class AssessmentController {
     async create(req, res) {
-        try {
-            const data = req.body;
-            const assessment = await AssessmentService.createAssessment(data);
-            return res.status(201).json(assessment);
-        } catch (error) {
-            return res.status(400).json({ error: error.message });
-        }
+    try {
+      const data = req.body;
+      
+      if (!data.touristSpotId) {
+        throw new Error("O ID do ponto turístico é obrigatório.");
+      }
+  
+      const assessment = await AssessmentService.createAssessment(data);
+      return res.status(201).json(assessment);
+    } catch (error) {
+      return res.status(400).json({ error: error.message });
     }
+  }
+  
 
     async getAll(req, res) {
         try {
