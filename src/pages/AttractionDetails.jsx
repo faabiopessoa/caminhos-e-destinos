@@ -163,7 +163,7 @@ const TourDetails = () => {
                         <input type="date" className="w-full border-none text-gray-800 text-sm" />
                     </div>
 
-                    <button className="w-full bg-orange-400 hover:bg-orange-600 text-white font-semibold py-3 rounded-lg mb-4 text-center flex items-center justify-center">
+                    <button className="w-full bg-orange-400 hover:bg-orange-600 text-white font-semibold py-3 rounded-lg mb-4 text-center flex items-center justify-center" onClick={() => navigate('/checkout')}>
                         Reservar
                     </button>
                     <p className="text-center text-sm text-gray-500 mb-2">Você será redirecionado</p>
