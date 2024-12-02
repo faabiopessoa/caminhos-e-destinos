@@ -13,6 +13,7 @@ export function SignIn() {
   const [email, setEmail] = useState(""); 
   const [password, setPassword] = useState(""); 
   const [error, setError] = useState(null); 
+  const [sucess, setSucess] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -23,11 +24,14 @@ export function SignIn() {
       const result = await login(loginData); 
 
       localStorage.setItem('token', result.token);
-
-      console.log(result); 
-      console.log(result.token);
-      navigate("/home");
+      
+      setSucess(true);
+      setError(null);
+      setTimeout(() => {
+        navigate("/home");
+      }, 2000);
     } catch (err) {
+      setSucess(false);
       setError("Erro ao fazer login"); 
     }
   };
@@ -69,7 +73,13 @@ export function SignIn() {
               onChange={(e) => setPassword(e.target.value)} 
             />
           </div>
-          {error && <Typography color="red" className="text-sm mt-2">{error}</Typography>} {/* erro */}
+          {/* Alerta de sucesso */}
+          {sucess && (
+            <div className="mt-4 p-3 text-sm text-green-800 bg-green-200 border border-green-300 rounded">
+              Login realizado com sucesso! Redirecionando...
+            </div>
+          )}
+           {error && <Typography color="red" className="text-sm mt-2">{error}</Typography>}
           <Checkbox
             label={
               <Typography

@@ -18,6 +18,8 @@ export function SignUp() {
     password: '',
     confirmPassword: ''
   });
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -34,10 +36,14 @@ export function SignUp() {
 
     try {
       await createUser({ email: userData.email, password: userData.password });
-      //alert("Usuário cadastrado com sucesso");
-      navigate("/home");
+      setSuccess(true);
+      setError("");
+      setTimeout(() => {
+        navigate("/home");
+      }, 2000);
     } catch (error) {
       console.error("Erro ao cadastrar usuário: ", error);
+      setSuccess(false);
       alert("Erro ao cadastrar usuário");
     }
   };
@@ -104,6 +110,18 @@ export function SignUp() {
               value={userData.confirmPassword} 
               onChange={handleChange} 
             />
+            {/* Alerta de sucesso */}
+          {success && (
+            <div className="mt-4 p-3 text-sm text-green-800 bg-green-200 border border-green-300 rounded">
+              Cadastro realizado com sucesso! Redirecionando...
+            </div>
+          )}
+          {/* Alerta de erro */}
+          {error && (
+            <div className="mt-4 p-3 text-sm text-red-800 bg-red-200 border border-red-300 rounded">
+              {error}
+            </div>
+          )}
           </div>
           <Checkbox
             label={
