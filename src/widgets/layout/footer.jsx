@@ -1,3 +1,4 @@
+import React from "react";
 import PropTypes from "prop-types";
 import { Typography, IconButton } from "@material-tailwind/react";
 
@@ -16,50 +17,50 @@ export function Footer({ title, description, socials, menus, copyright }) {
               {description}
             </Typography>
             <div className="mx-auto mt-6 mb-8 flex justify-center gap-2 md:mb-0 lg:justify-start">
-              {socials.map(({ color, name, path }) => (
-                <a
-                  key={name}
-                  href={path}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <IconButton color="white" className="rounded-full shadow-none bg-transparent">
-                    <Typography color={color}>
-                      <i className={`fa-brands fa-${name}`} />
-                    </Typography>
-                  </IconButton>
-                </a>
-              ))}
+            {socials.map(({ color, name, path }, index) => (
+              <a
+                key={name || `social-${index}`}
+                href={path}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <IconButton color="white" className="rounded-full shadow-none bg-transparent">
+                  <Typography color={color}>
+                    <i className={`fa-brands fa-${name}`} />
+                  </Typography>
+                </IconButton>
+              </a>
+            ))}
             </div>
           </div>
           <div className="mx-auto mt-12 grid w-max grid-cols-2 gap-24 lg:mt-0">
-            {menus.map(({ name, items }) => (
-              <div key={name}>
-                <Typography
-                  variant="small"
-                  color="blue-gray"
-                  className="mb-2 block font-medium uppercase"
-                >
-                  {name}
-                </Typography>
-                <ul className="mt-3">
-                  {items.map((item) => (
-                    <li key={item.name}>
-                      <Typography
-                        as="a"
-                        href={item.path}
-                        target="_blank"
-                        rel="noreferrer"
-                        variant="small"
-                        className="mb-2 block font-normal text-blue-gray-500 hover:text-blue-gray-700"
-                      >
-                        {item.name}
-                      </Typography>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+          {menus.map(({ name, items }, index) => (
+            <div key={name || `menu-${index}`}>
+              <Typography
+                variant="small"
+                color="blue-gray"
+                className="mb-2 block font-medium uppercase"
+              >
+                {name}
+              </Typography>
+              <ul className="mt-3">
+                {items.map((item, itemIndex) => (
+                  <li key={item.name || `item-${itemIndex}`}>
+                    <Typography
+                      as="a"
+                      href={item.path}
+                      target="_blank"
+                      rel="noreferrer"
+                      variant="small"
+                      className="mb-2 block font-normal text-blue-gray-500 hover:text-blue-gray-700"
+                    >
+                      {item.name}
+                    </Typography>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
           </div>
         </div>
         <hr className="my-6 border-gray-300" />
@@ -80,36 +81,25 @@ export function Footer({ title, description, socials, menus, copyright }) {
 
 Footer.defaultProps = {
   title: "Caminhos e Destinos",
-  description:
-    "Seu site de passeios pelo Ceará!",
+  description: "Seu site de passeios pelo Ceará!",
   socials: [
-    {
-      color: "gray",
-      name: "youtube",
-    },
-    {
-      color: "gray",
-      name: "instagram",
-    },
-    {
-      color: "black",
-      name: "github",
-    },
+    { color: "gray", name: "youtube", path: "https://youtube.com" },
+    { color: "gray", name: "instagram", path: "https://instagram.com" },
+    { color: "black", name: "github", path: "https://github.com" },
   ],
   menus: [
     {
-      name: "",
+      name: "Links Úteis",
       items: [
-        { name: "" },
-        { name: "" },
+        { name: "Contato", path: "/contato" },
+        { name: "Sobre", path: "/sobre" },
       ],
     },
     {
-      name: "",
+      name: "Redes Sociais",
       items: [
-        {
-          name: "",
-        }
+        { name: "Instagram", path: "https://instagram.com" },
+        { name: "YouTube", path: "https://youtube.com" },
       ],
     },
   ],

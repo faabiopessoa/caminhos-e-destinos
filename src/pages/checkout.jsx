@@ -67,7 +67,7 @@ function Checkout() {
           <Typography variant="h4" className="font-semibold text-gray-800">
             Finalize Sua Compra
           </Typography>
-          <Typography variant="body1" className="text-gray-600 mt-2">
+          <Typography variant="paragraph" className="text-gray-600 mt-2">
             Garanta sua experiência de forma rápida e segura.
           </Typography>
         </div>

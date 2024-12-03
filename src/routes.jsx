@@ -1,3 +1,4 @@
+import React from "react";
 import { Home, SignIn, SignUp } from "@/pages";
 
 export const routes = [

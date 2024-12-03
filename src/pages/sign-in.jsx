@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Input,
   Checkbox,
@@ -8,6 +9,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react"; 
 import { login } from '../services/apiService'; 
 import { loginWithGoogle } from '../services/apiService'; 
+import { ArrowLeftIcon } from "@heroicons/react/24/solid";
 
 export function SignIn() {
   const [email, setEmail] = useState(""); 
@@ -38,6 +40,9 @@ export function SignIn() {
 
   return (
     <section className="m-8 flex gap-4">
+      <div className="absolute top-4 left-4 cursor-pointer" onClick={() => navigate("/home")}>
+        <ArrowLeftIcon className="h-8 w-8 text-gray-700 hover:text-black"/>
+      </div>
       <div className="w-full lg:w-3/5 mt-24">
         <div className="text-center">
           <Typography variant="h2" className="font-bold mb-4">Login</Typography>
